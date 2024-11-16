@@ -15,48 +15,45 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
-    @Value("${api.security.secret")
+    @Value("${api.security.secret}")
     private String apiSecret;
 
-    public String generarToken(Usuario usuario) {
+    public String generateToken(Usuario usuario) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret);
             return JWT.create()
-                    .withIssuer("Foro Hub")
+                    .withIssuer("voll med")
                     .withSubject(usuario.getLogin())
                     .withClaim("id", usuario.getId())
-                    .withExpiresAt(generarFechaDeExpiracion())
+                    .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             throw new RuntimeException();
         }
     }
 
+    private Instant generateExpirationDate() { // more dynamic: a parameter for the number of hours can be added
+        return LocalDateTime.now().plusHours(5).toInstant(ZoneOffset.of("-05:00"));
+    }
+
     public String getSubject(String token) {
         if (token == null) {
             throw new RuntimeException();
         }
-
-
         DecodedJWT verifier = null;
         try {
-            Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+            Algorithm algorithm = Algorithm.HMAC256(apiSecret); // validando firma
             verifier = JWT.require(algorithm)
-                    .withIssuer("Foro Hub")
+                    .withIssuer("voll med")
                     .build()
                     .verify(token);
             verifier.getSubject();
         } catch (JWTVerificationException exception) {
-
+            System.out.println(exception.toString());
         }
         if (verifier.getSubject() == null) {
-            System.out.println("Verifier es null");
-            throw new RuntimeException("Verifier inválido");
+            throw new RuntimeException("Verifier invalido");
         }
         return verifier.getSubject();
-    }
-
-    private Instant generarFechaDeExpiracion() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }
