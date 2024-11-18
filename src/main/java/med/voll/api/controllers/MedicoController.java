@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("medicos")
-public class medicoController {
+public class MedicoController {
     @Autowired
     private MedicoRepositorio medicoRepositorio;
 

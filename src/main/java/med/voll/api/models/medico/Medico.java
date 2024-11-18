@@ -43,7 +43,7 @@ public class Medico {
         if(datosActualizarMedico.documento() != null)
             this.documento = datosActualizarMedico.documento();
         if(datosActualizarMedico.direccion() != null)
-            this.direccion= direccion.actulizardatos(datosActualizarMedico.direccion());
+            this.direccion= direccion.actualizarDatos(datosActualizarMedico.direccion());
     }
 
     public void desactivarMedico() {
