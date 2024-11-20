@@ -10,12 +10,15 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDateTime;
 
 public interface MedicoRepositorio extends JpaRepository<Medico, Long> {
+
+    // Obtiene una página de médicos activos
     Page<Medico> findByActivoTrue(Pageable pagina);
 
+    // Selecciona un médico aleatorio disponible en una fecha específica, que sea de la especialidad dada.
     @Query("""
             select m from Medico m
             where
-            m.activo = 1
+            m.activo = true
             and
             m.especialidad = :especialidad
             and m.id not in(
@@ -24,7 +27,15 @@ public interface MedicoRepositorio extends JpaRepository<Medico, Long> {
                 c.fecha = :fecha
             )
             order by rand()
-            limit 1
             """)
-    Medico elegirMedicoAleatorioDisponibleEnLaFecha(Especialidad especialidad, @NotNull @Future LocalDateTime fecha);
+    Medico elegirMedicoAleatorioDisponibleEnLaFecha(
+            Especialidad especialidad,
+            @NotNull @Future LocalDateTime fecha);
+
+    // Método para verificar si un médico está activo
+    @Query("""
+            select m.activo from Medico m
+            where m.id = :idMedico
+            """)
+    Boolean findActivoById(Long idMedico);
 }

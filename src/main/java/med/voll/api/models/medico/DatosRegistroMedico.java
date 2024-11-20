@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import med.voll.api.models.direccion.DatosDireccion;
 
-public record DatosMedicos(
+public record DatosRegistroMedico(
         @NotBlank
         String nombre,
         @NotBlank

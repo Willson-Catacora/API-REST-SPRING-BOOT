@@ -21,7 +21,7 @@ public class MedicoController {
     private MedicoRepositorio medicoRepositorio;
 
     @PostMapping
-    public ResponseEntity<DatosRespuestaMedico> registrarMedico(@RequestBody @Valid DatosMedicos datosRegistroMedico,
+    public ResponseEntity<DatosRespuestaMedico> registrarMedico(@RequestBody @Valid DatosRegistroMedico datosRegistroMedico,
                                                                 UriComponentsBuilder uriComponentsBuilder) {
         Medico medico = medicoRepositorio.save(new Medico(datosRegistroMedico));
         DatosRespuestaMedico datosRespuestaMedico = new DatosRespuestaMedico(medico.getId(), medico.getNombre(), medico.getEmail(),
