@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("pacientes")
 public class PacienteController {
     @Autowired
-    private PacienteRepository repository;
+    private PacienteRepositorio repository;
 
     @PostMapping
     @Transactional
